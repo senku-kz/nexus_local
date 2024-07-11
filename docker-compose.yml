@@ -1,0 +1,28 @@
+version: "3"
+services:
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus.local
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - NEXUS_SECURITY_RANDOMPASSWORD=false
+    volumes:
+      - nexus-data:/nexus-data
+    networks:
+      - project_network
+
+volumes:
+  nexus-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /media/user/data1/nexus-data
+
+networks:
+    project_network:
+        external: true
+
+# docker exec -it nexus cat /nexus-data/admin.password
